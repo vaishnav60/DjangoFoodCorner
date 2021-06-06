@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        {% include "foodapp/header.html" %}
+    </div>
+<h1 id="msg">{{sucess}}</h1>
+<script>
+     $(document).ready (function(){
+     setTimeout(hideMsg,1000);
+     });
+     function hideMsg(){
+     $('#msg').fadeOut()
+     }
+
+</script>
+</body>
+</html>

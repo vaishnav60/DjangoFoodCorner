@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    {% include "foodapp/header.html" %}
+
+
+
+</head>
+<body align="center">
+<form action="/updatecust/" method="post">
+    {% csrf_token %}
+    <br>
+        <input type="text" name="username" value="{{data.username}}" readonly><br><br>
+
+        <input type="email" name="email" value="{{data.email}"><br><br>
+    <input type="text" name="first_name" value="{{data.first_name}}"><br><br>
+    <input type="text" name="last_name" value="{{data.last_name}}"><br><br>
+    <input type="text" name="password" value="{{data.password}}" style="display:none"><br><br>
+
+    <input type="text" name="Role" value="{{role}}" style="display:none"><br><br>
+    <input type="text" name="location" value="{{data1.location}}"><br><br>
+    <input type="text" name="number" value="{{data1.number}}"><br><br>
+    <input type="submit" value="update">
+
+</form>
+<!--<p>{{data.username}}</p>
+<p>{{data1.location}}</p>-->
+</body>
+</html>

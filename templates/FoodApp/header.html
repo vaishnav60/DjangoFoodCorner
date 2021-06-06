@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">-->
+    <script type="text/javascript" src="{% static 'js/jquery-3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <link href="{% static 'css/jquery.datatables.min.css' %}" rel="stylesheet">
+  <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
+<style>
+
+</style>
+</head>
+<body>
+
+<div class="outer-container">
+    <div class="header">
+        <div class="title">Food<span style="...">Plaza</span></div>
+            <div class="menu">
+<ul>
+			<li class="menu dropdown">
+				 <button class="dropbtn">{{request.user}}</button>
+
+                <ul class="dropdown-content">
+	            <li> <a href="/cart">My Cart <span class="c1" >{{count}}</span></a><li>
+
+				<li><a href="/myorder">My Orders</a></li>
+                {% if perms.foodapp.edit_userprofile or perms.foodapp.views_userprofile %}
+				    <li><a href="/profile">Profile</a></li>
+                {% endif %}
+
+			    <li><a href="/graphs">Graphical Information</a></li>
+                {% if perms.foodapp.edit_userprofile or perms.foodapp.views_userprofile %}
+                 <li class="menu"><a href="/addfood">Addfood</a></li>
+                 <li class="menu"><a href="#">customers</a></li>
+                 <li class="menu"><a href="/allorders">All Orders</a></li>
+                 {% endif %}
+  </ul>
+
+
+             <li class="menu"> <a href=" ">Home</a></li>
+                <li class="menu"><a href="/addfood">Addfood</a></li>
+               <li class="menu"> <a href="#customers">Customers</a></li>
+
+              <li class="menu"><a href="/cart">My Cart<span style="c1">{{count}}</span> </a></li>
+             <li class="menu"> <a href="/myorders">My Orders</a></li>
+               <li class="menu"> <a href="/menu">Menu</a></li>
+
+                {% if request.user.is_authenticated %}
+              <li class="menu">  <a href="/logout">Logout</a></li>
+                {% else %}
+              <li class="menu">  <a href="/login">Login</a></li>
+              <li class="menu"><a href="/signup">Signup</a></li>
+
+
+                {% endif%}
+            </ul>
+            </div>
+    </div>
+</div>
+</body>
+</html>

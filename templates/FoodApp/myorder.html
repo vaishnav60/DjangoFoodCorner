@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    {% include "foodapp/header.html" %}
+</div>
+<table id="tblItems" class="table table-condensed" width="100%" cellpadding="0">
+    <thead>
+    <tr>
+        <th>Order id</th>
+        <th>Order Date</th>
+        <th>Status</th>
+        <th>Food Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+    </tr>
+    </thead>
+<tbody>
+    {% for o in orders %}
+        <tr class="child-row{{o.ordersobj.id}}">
+
+            <td>{{o.order.id}}</td>
+            <td>{{o.order.date}}</td>
+             <td>{{o.order.status}}</td>
+            <td><image src="{{o.food.image.url}}" height="200" width="200"></image>{{o.food.name}}</td>
+            <td>{{o.total}}</td>
+            <td>{{o.foodQuant}}</td>
+            </tr>
+    {% endfor %}
+
+</tbody>
+</table>
+
+<script>
+    $(document).ready(function(){
+        $("#tblItems").dataTable({
+            'bSort':false
+            });
+    });
+</script>
+</body>
+</html>

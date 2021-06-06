@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        {% include "foodapp/header.html" %}
+    </div>
+<div id="msg"></div>
+
+<table id="tblitems" class="table table-hover" width="100%" cellpadding="0">
+    <thead>
+        <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Image</th>
+        <th>Quantity</th>
+    </tr>
+
+    </thead>
+
+
+{% for f in food %}
+    <tbody></tbody>
+<tr>
+    <td><a href="/allfood/{{f.food}}">{{f.name}}</a> </td>
+    <td id="price">{{f.price}}</td>
+    <td>{{f.type}}</td>
+    <td>{{f.category}}</td>
+    <td><img src={{f.image.url}} alt="img" height=150 width=200></td>
+    <td>
+        {{f.quantity}}
+    </td>
+    <td>
+{% if perms.FoodApp.add_cart %}
+<a class="addtocart" data-foodId={{f.id}}href="javascript:void(0)">Add to cart</a>
+    {% endif %}
+    {% if perms.FoodApp.change_food %}
+    <a href="/update/{{f.id}}">Edit</a>
+    {% endif %}
+    {% if perms.FoodApp.delete_food %}
+
+    <a href="/delete/{{f.id}}">Delete</a></td>
+
+     {% endif %}
+</tr>
+
+    {% endfor %}
+    </tbody>
+
+
+</table>
+</body>
+<script>
+    $(document).ready(function(){
+    $("#tblItems").dataTable();
+    $('.addtocart').click(fucntion(){
+    $.ajax({
+    url:'/addtocart',
+    method:'GET',
+    cache:false,
+    data:{'foodid':$(this).attr("data-foodId"),'price':$('#price').html()},
+    success:
+    function()
+    {
+    },
+    error:
+    function()
+    {
+    }
+    });
+    });
+    });
+</script>
+</body>
+</html>

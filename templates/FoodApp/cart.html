@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    {% include "foodapp/header.html" %}
+</div>
+
+<form action="/placeOrder" method="post">
+    {% csrf_token %}
+     <div>
+
+<table id="tblItems" class="table table-hover" width="100%" cellpadding="0">
+
+
+    <thead>
+    <tr>
+        <th> Food </th>
+        <th> per price </th>
+        <th> Quantity </th>
+        <th> total  </th>
+        <th> Action </th>
+    </tr>
+    </thead>
+{% for item in cart %}
+    <tbody>
+<tr>
+    <td><label style="color:blue"> {{item.fid.name}}</label><br><image src={{item.fid.image.url}} alt="img" height="150" width="150"></image></td>
+    <td><input type="text" id="price"  value="{{item.fid.price}}"></td>
+    <td>
+        <input type="number" min="1" value="{{item.itemquantity}}" class="qnt">
+        <input type="hidden" id="{{item.id}}" value="{{item.id}}"></td>
+
+     <td><input type="number" name="total" value="{{item.total}}" class="total" readonly></td>
+
+        {% if perms.foodapp.delete_cart %}
+        <td> <a href="/deleteCart/{{item.id}}">Delete</a> </td>
+        {% endif %}
+</tr>
+    {% endfor %}
+</tbody>
+</table>
+</div>
+<div>
+    <label>Total Amount</label>
+    <input type="text" id="totalamount" name="totalbill" value="0" readonly>
+    <input type="submit" value="Place Order">
+</div>
+</form>
+<script>
+    $(document).ready(function(){
+        $('#tblItems').dataTable();
+
+        $(".qnt").change(function(){
+        calculatetotal(this);
+        })
+        $(".qnt").blur(function(){
+        calculatetotal(this);
+        });
+        });
+        function calculatetotal(ctrl)
+{
+//get food price,currnt quantity
+  var price1=Number($(ctrl).parent().prev().find("#price").val());
+   var quantity1=Number($(ctrl).val())
+
+   //set calculated total
+   $(ctrl).parent().next().find(".total").val(price1*quantity1);
+
+   // get id,total
+   total=$(ctrl).parent().next().find(".total").val();
+   id=$(ctrl).next().val()
+   calculateTotalPrice();
+    update(quantity1,total,id)
+}
+
+          //code to update data in database
+         function update(quantity,perPrice,id){
+
+          $.ajax({ url:'/updatecart/',
+          method:'POST',
+          async:true,
+          cache:false,
+          data:{'q':quantity, 'csrfmiddlewaretoken':'{{csrf_token}}', 'id':id,'p':perPrice},
+          success:function()
+          {          },
+          error:function()
+          {          },
+
+          });CalculateTotalPrice();
+    }
+function calculateTotalPrice(){
+var finalPrice= 0;
+$('.total').each(function(){
+            finalPrice+=parseFloat($(this).val());
+            });
+            $('#totalamount').val(finalPrice);
+ }
+
+</script>
+
+</body>
+</html>
